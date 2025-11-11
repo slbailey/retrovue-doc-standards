@@ -77,5 +77,3 @@ Define the canonical tone, structure, and formatting rules for all Retrovue docu
 - [AI assistant methodology](ai-assistant-methodology.md)
 - [Repository conventions](repository-conventions.md)
 - [Test methodology](test-methodology.md)
-
-
