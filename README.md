@@ -1,2 +1,4 @@
-# retrovue-doc-standards
-A collection documentation on how we develop documentation for Retrovue - so all components are documented equally
+# Retrovue Documentation Standards
+
+This repository defines shared documentation conventions, templates, and examples
+used across all Retrovue projects.
