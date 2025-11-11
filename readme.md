@@ -1,4 +1,4 @@
-# Retrovue Documentation Standards
+# Retrovue Standards
 
-This repository defines shared documentation conventions, templates, and examples
-used across all Retrovue projects.
+## Purpose
+This repository defines the shared documentation, testing, and methodology standards used across all Retrovue projects.
