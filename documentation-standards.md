@@ -16,6 +16,7 @@ Define the canonical tone, structure, and formatting rules for all Retrovue docu
 
 - Use sentence case for headings (`## Purpose`, not `## PURPOSE`).
 - Each doc starts with `## Purpose`. Follow with `## Scope` or `## Audience` when additional framing is needed.
+- Optional metadata appears above the Purpose section using the format `_Metadata: Status=Enforced • Scope=Runtime • Owner=@handle_`. Keep the line concise and only include fields that add value.
 - Domain/runtime docs adopt this baseline order:
   1. Purpose
   2. Core model / scope
@@ -42,6 +43,7 @@ Define the canonical tone, structure, and formatting rules for all Retrovue docu
 - Code fences specify the language (` ```bash`, ` ```powershell`, ` ```python`).
 - Present CLI examples in both bash and PowerShell when syntax differs.
 - Tables are acceptable for structured comparisons but keep them narrow and scannable.
+- Default to ASCII characters. Use Unicode (en/em dashes, mathematical symbols, non-breaking spaces) only when illustrating protocol output or external interfaces that require them.
 - Use **MUST**, **SHOULD**, **MAY** for normative statements; avoid ambiguous phrasing.
 - Include “Status” sections when documenting experimental or deprecated features.
 

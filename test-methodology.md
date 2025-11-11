@@ -11,6 +11,15 @@ Define the testing strategy, validation workflow, and database usage rules that 
 - **Integration tests** — Exercise cross-module flows (e.g., ingest pipelines) using the real database schema and configured dependencies.
 - **Regression/analysis suites** — Specialized checks (e.g., `tests/CONTRACT_MIGRATION.md`) document migration paths and must remain up to date.
 
+## Contract testing harness
+
+- Base every contract suite on a shared harness (`BaseContractTest`) that provides deterministic clocks, registry hooks, and helper assertions. Each suite overrides `CoveredRuleIds()` to declare the contract rules it satisfies.
+- Register coverage centrally through `ContractRegistry::RegisterSuite(domain, rule_ids)` (or the Python equivalent). Add a `ContractRegistrySanityTest` that asserts all documented rules are covered.
+- Name suites after the domain (`PlayoutEngineContractTest`, `SourceContractTest`) and prefix each test with the rule ID (`PE_001_BufferDepth`, `SRC_010_DeleteRequiresConfirmation`) to keep traceability with `docs/contracts/*.md`.
+- Store reusable fixtures under `tests/fixtures/` and suffix helper classes with `Stub` or `Fake` to clarify intent (`MasterClockStub`, `MetricsCollectorStub`). Avoid inlining mocks within individual tests.
+- Each domain gets its own executable or module (`contracts_playoutengine_tests`, `contracts_metrics_tests`); expose matching ctest / pytest entry points to allow targeted runs.
+- Update the contract rule lists in the registry whenever `docs/contracts/` adds, removes, or renumbers rules. The associated sanity test must fail if coverage drops.
+
 ## Workflow expectations
 
 1. Update the relevant contract document in `docs/contracts/` first.

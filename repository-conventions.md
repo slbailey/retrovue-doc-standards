@@ -18,6 +18,7 @@ Document the canonical directory structure, naming rules, and cross-repo alignme
 - `scripts/` — One-off operational scripts (validated before inclusion).
 - `src_legacy/` — Quarantine for deprecated modules; new code must not import from here.
 - `docs/_standards/` — Shared standards (this directory) synchronized across repos.
+- `build/` — Generated artifacts, CMake cache, and proto outputs (checked in only when contracts require it).
 
 ## File placement rules
 
@@ -27,6 +28,18 @@ Document the canonical directory structure, naming rules, and cross-repo alignme
 - CLI commands call usecases and format output; they do not enforce business logic.
 - Runtime code does not import from CLI or tests.
 - Documentation changes live under `docs/`; templates stay in `docs/_standards/`.
+- Native modules follow the structure described in **C++ layout** below; do not mix public headers with sources.
+
+## C++ layout (native modules like retrovue-air)
+
+- Public headers live under `include/retrovue/<module>/`. File names use PascalCase or descriptive snake_case that mirrors the class (`FrameRingBuffer.h`, `MetricsExporter.h`).
+- Implementation files live under `src/<module>/` with matching stem names (`FrameRingBuffer.cpp` pairs with `FrameRingBuffer.h`).
+- Namespaces mirror the directory path, e.g. `retrovue::buffer::FrameRingBuffer`.
+- Avoid flat headers directly under `include/`; every public artifact belongs to a module directory.
+- Internal-only headers stay beside their `.cpp` files in `src/`.
+- Generated proto sources land under `build/generated/retrovue/` (or the build system’s equivalent) and are not manually edited.
+- Shared telemetry helpers live under `src/telemetry/` and expose Prometheus-compatible exporters; tests consume them via dedicated fixtures, not ad-hoc copies.
+- Keep tooling scripts (`scripts/`) language-agnostic; C++-specific helpers (`generate_stubs.py`, build wrappers) live there and document required toolchains.
 
 ## Naming conventions
 
@@ -36,6 +49,7 @@ Document the canonical directory structure, naming rules, and cross-repo alignme
 - Database tables are pluralized snake_case (`channels`, `schedule_plans`).
 - Environment variables use screaming snake case (`RETROVUE_DATABASE_URL`).
 - Migrations follow timestamp or descriptive slug formats already in use (keep alembic autogeneration consistent).
+- C++ classes follow PascalCase, namespaces are lowercase with `::` separators matching directory structure, and Prometheus metrics names use `retrovue_<component>_<metric>`.
 
 ## Versioning and compatibility
 
